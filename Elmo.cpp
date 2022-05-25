@@ -82,6 +82,24 @@ void Elmo::moveElmo(const bool isFoodEaten)
     }
 }
 
+bool Elmo::isElmoEatingItself() const
+{
+    for (auto i = std::next(m_body.begin()); i != m_body.end(); i++)
+    {
+        if (comparePoints(*m_head, *i))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Elmo::comparePoints(const SDL_Point &firstPoint, const SDL_Point &secondPoint)
+{
+    return (firstPoint.x == secondPoint.x && firstPoint.y == secondPoint.y);
+}
+
 Elmo::Direction Elmo::getElmoDirection() const
 {
     if(m_head->y == m_blockAfterHead->y)

@@ -35,6 +35,9 @@ public:
 
     void moveElmo(const bool isFoodEaten = false);
 
+    bool isElmoEatingItself() const;
+
+    static bool comparePoints(const SDL_Point& firstPoint, const SDL_Point& secondPoint);
 private:
     std::list<SDL_Point> m_body;
     SDL_Point* m_head;

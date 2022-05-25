@@ -1,10 +1,10 @@
 #include "GameBoard.hpp"
 
-#include <iostream>
-
 #include "Tools/RandomNumberGenerator.hpp"
 
-GameBoard::GameBoard() : m_food(new Food)
+#include <iostream>
+
+GameBoard::GameBoard() : m_food(new Food), m_score(0), m_elmosLength(0)
 {
     std::cout << "GameBoard create" << std::endl;
     generateElmoInTheMiddleOfBoard();
@@ -31,6 +31,8 @@ void GameBoard::refreshBoard()
     {
         m_elmo->moveElmo(elmoGrowUp);
         generateFoodInRandomPlace();
+        m_score += 10;
+        m_elmosLength++;
     }
     else
     {
@@ -58,16 +60,41 @@ Elmo::Direction GameBoard::getElmosDirection() const
     return m_elmo->getDirection();
 }
 
+uint32_t GameBoard::getScore() const
+{
+    return m_score;
+}
+
+uint32_t GameBoard::getElmosLength() const
+{
+    return m_elmosLength;
+}
+
 bool GameBoard::isElmoOutOfBounds() const
 {
     const SDL_Point elmosHeadPosition = *(m_elmo->getHead());
-    if (elmosHeadPosition.x < 0 || elmosHeadPosition.y > m_gameBoardWidht ||
+    if (elmosHeadPosition.x < 0 || elmosHeadPosition.x > m_gameBoardWidht ||
         elmosHeadPosition.y < 0 || elmosHeadPosition.y > m_gameBoardHeight)
     {
         return true;
     }
 
     return false;
+}
+
+bool GameBoard::isElmoEatingItself() const
+{
+    return m_elmo->isElmoEatingItself();
+}
+
+uint16_t GameBoard::getGameBoardWidht()
+{
+    return m_gameBoardWidht;
+}
+
+uint16_t GameBoard::getGameBoardHeight()
+{
+    return m_gameBoardHeight;
 }
 
 void GameBoard::generateElmoInTheMiddleOfBoard()
